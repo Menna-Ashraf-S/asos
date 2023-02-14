@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/local/id.dart';
+import 'package:flutter_app/pages/cart.dart';
+import 'package:flutter_app/pages/favourite.dart';
 
 class WomanCate extends StatefulWidget {
   const WomanCate({super.key});
@@ -52,10 +54,12 @@ class _CategoryState extends State<WomanCate> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/cart',
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Cart(
+                              backArrowState: true,
+                            )));
               },
               icon: Icon(
                 Icons.shopping_cart,
@@ -64,10 +68,12 @@ class _CategoryState extends State<WomanCate> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/favourite',
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Favourite(
+                              backArrowState: true,
+                            )));
               },
               icon: Icon(
                 Icons.favorite,
@@ -77,117 +83,108 @@ class _CategoryState extends State<WomanCate> {
           SizedBox(width: 5),
         ],
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 350,
-                  height: 45,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(
-                        Icons.search,
-                        size: 25,
-                      ),
-                      hintText: 'Search',
-                      hintStyle: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(220, 153, 150, 150),
-                        fontWeight: FontWeight.w600,
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30)),
+      body: SingleChildScrollView(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 350,
+                height: 45,
+                child: TextField(
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(
+                      Icons.search,
+                      size: 25,
                     ),
+                    hintText: 'Search',
+                    hintStyle: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(220, 153, 150, 150),
+                      fontWeight: FontWeight.w600,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30)),
                   ),
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                SingleChildScrollView(
-                  child: Scrollbar(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.78,
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 5,
-                          crossAxisSpacing: 5,
-                          childAspectRatio: (0.82 / 1.15),
-                        ),
-                        itemCount: cate_Wm.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: MediaQuery.of(context).size.width * 0.75,
-                            child: GestureDetector(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 20),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 175,
-                                        height: 190,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey,
-                                            width: 1,
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(15),
-                                          ),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image.network(
-                                            '${imag_Wm[index]}',
-                                            width: 175,
-                                            height: 190,
-                                            fit: BoxFit.fitHeight,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          width: 175,
-                                          height: 51,
-                                          child: Text(
-                                            name_Wm[index],
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 5,
+                    childAspectRatio: (0.82 / 1.15),
+                  ),
+                  itemCount: cate_Wm.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: MediaQuery.of(context).size.width * 0.75,
+                      child: GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 175,
+                                  height: 190,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15),
+                                    ),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      '${imag_Wm[index]}',
+                                      width: 175,
+                                      height: 190,
+                                      fit: BoxFit.fitHeight,
+                                    ),
                                   ),
                                 ),
-                                onTap: () async {
-                                  Navigator.pushNamed(context, '/product',
-                                      arguments: Id(id: cate_Wm[index]));
-                                }),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Container(
+                                    width: 175,
+                                    height: 51,
+                                    child: Text(
+                                      name_Wm[index],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () async {
+                            Navigator.pushNamed(context, '/product',
+                                arguments: Id(id: cate_Wm[index]));
+                          }),
+                    );
+                  },
                 ),
-              ]),
-        ),
+              ),
+            ]),
       ),
     );
   }

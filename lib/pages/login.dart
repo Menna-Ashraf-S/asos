@@ -137,7 +137,7 @@ class _LogInState extends State<LogIn> {
                                   loggedData(email!, value.first.username!)
                                 }
                               else
-                                {print('Wrong')}
+                                {showSnackBar(context)}
                             });
                       }
                     },
@@ -196,5 +196,10 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+  }
+
+  void showSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Wrong Email or Password')));
   }
 }

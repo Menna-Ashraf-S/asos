@@ -15,8 +15,10 @@ class _NavigationState extends State<Navigation> {
   int currentIndex = 0;
   final screens = [
     Home(),
-    Favourite(),
-    Cart(),
+    Favourite(backArrowState: false),
+    Cart(
+      backArrowState: false,
+    ),
     Profile(),
   ];
 

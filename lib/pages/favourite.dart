@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/local/fav_data.dart';
 import 'package:flutter_app/local/fav_dbHelper.dart';
+import 'package:flutter_app/pages/cart.dart';
 
 class Favourite extends StatefulWidget {
-  const Favourite({super.key});
+  final bool backArrowState;
+  const Favourite({super.key, required this.backArrowState});
 
   @override
   State<Favourite> createState() => _FavouriteState();
@@ -23,9 +25,11 @@ class _FavouriteState extends State<Favourite> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 2.5,
-        leading: const BackButton(
-          color: Colors.red,
-        ),
+        leading: widget.backArrowState
+            ? BackButton(
+                color: Colors.red,
+              )
+            : Text(''),
         title: Text(
           "Favourite List",
           style: TextStyle(
@@ -37,10 +41,12 @@ class _FavouriteState extends State<Favourite> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/cart',
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Cart(
+                              backArrowState: true,
+                            )));
               },
               icon: Icon(
                 Icons.shopping_cart,

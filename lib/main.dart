@@ -30,8 +30,6 @@ class MyApp extends StatelessWidget {
         '/navigation': (context) => Navigation(),
         '/product': (context) => Product(),
         '/details': (context) => Details(),
-        '/cart': (context) => Cart(),
-        '/favourite': (context) => Favourite(),
       },
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/local/cart_data.dart';
 import 'package:flutter_app/local/cart_dbHelper.dart';
+import 'package:flutter_app/pages/favourite.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({super.key});
+  final bool backArrowState;
+  Cart({super.key, required this.backArrowState});
 
   @override
   State<Cart> createState() => _CartState();
@@ -28,9 +30,11 @@ class _CartState extends State<Cart> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 2.5,
-        leading: const BackButton(
-          color: Colors.red,
-        ),
+        leading: widget.backArrowState
+            ? BackButton(
+                color: Colors.red,
+              )
+            : Text(''),
         title: Text(
           "Cart List",
           style: TextStyle(
@@ -42,10 +46,12 @@ class _CartState extends State<Cart> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/favourite',
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Favourite(
+                              backArrowState: true,
+                            )));
               },
               icon: Icon(
                 Icons.favorite,
@@ -55,28 +61,28 @@ class _CartState extends State<Cart> {
           SizedBox(width: 10),
         ],
       ),
-      body: Column(
-        children: [
-          FutureBuilder(
-            future: helper.allCartList(),
-            builder: ((context, AsyncSnapshot snapshot) {
-              if (snapshot.hasError)
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
-              if (!snapshot.hasData) {
-                return CircularProgressIndicator();
-              } else {
-                return Container(
-                  child: Column(
-                    children: [
-                      SingleChildScrollView(
-                        child: Container(
-                          height: 470,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder(
+              future: helper.allCartList(),
+              builder: ((context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError)
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                if (!snapshot.hasData) {
+                  return CircularProgressIndicator();
+                } else {
+                  return Container(
+                    child: Column(
+                      children: [
+                        Container(
                           child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 8.0),
-                              shrinkWrap: true,
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
                                 CartData data =
@@ -244,98 +250,98 @@ class _CartState extends State<Cart> {
                                 );
                               }),
                         ),
+                      ],
+                    ),
+                  );
+                }
+              }),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              child: Divider(
+                thickness: 2,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              child: Container(
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Number of Items ',
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      ),
+                      SizedBox(
+                        width: 170,
+                      ),
+                      Text(
+                        '${totalQuantity}',
+                        style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
                     ],
                   ),
-                );
-              }
-            }),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Divider(
-              thickness: 2,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Container(
-              child: Column(children: [
-                Row(
-                  children: [
-                    Text(
-                      'Number of Items ',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    SizedBox(
-                      width: 170,
-                    ),
-                    Text(
-                      '${totalQuantity}',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Total Price ',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 170,
-                    ),
-                    Text(
-                      '\$ ${totalPrice}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ]),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Divider(
-              thickness: 2,
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: 300,
-            height: 55,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.amberAccent[200],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Total Price ',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 170,
+                      ),
+                      Text(
+                        '\$ ${totalPrice}',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
+                ]),
               ),
-              child: Text(
-                "Buy Now",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {},
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              child: Divider(
+                thickness: 2,
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              width: 300,
+              height: 55,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amberAccent[200],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+                child: Text(
+                  "Buy Now",
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.black,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+          ],
+        ),
       ),
     );
   }

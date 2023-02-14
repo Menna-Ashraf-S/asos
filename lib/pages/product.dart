@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/local/id.dart';
 import 'package:flutter_app/model.product/items.dart';
 import 'package:flutter_app/network/api_product.dart';
+import 'package:flutter_app/pages/cart.dart';
+import 'package:flutter_app/pages/favourite.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key});
@@ -39,10 +41,12 @@ class _ProductState extends State<Product> {
                   actions: [
                     IconButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/cart',
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Cart(
+                                        backArrowState: true,
+                                      )));
                         },
                         icon: Icon(
                           Icons.shopping_cart,
@@ -51,10 +55,12 @@ class _ProductState extends State<Product> {
                         )),
                     IconButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/favourite',
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Favourite(
+                                        backArrowState: true,
+                                      )));
                         },
                         icon: Icon(
                           Icons.favorite,
@@ -97,97 +103,90 @@ class _ProductState extends State<Product> {
                           SizedBox(
                             height: 5,
                           ),
-                          SingleChildScrollView(
-                            child: Scrollbar(
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.78,
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 5,
-                                    childAspectRatio: (0.82 / 1.25),
-                                  ),
-                                  itemCount: snapshot.data!.products!.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(top: 20),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width: 155,
-                                                height: 190,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.grey,
-                                                    width: 1,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(15),
-                                                  ),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  child: Image.network(
-                                                      'https://${snapshot.data!.products!.elementAt(index).imageUrl}',
-                                                      width: 175,
-                                                      height: 190,
-                                                      fit: BoxFit.fitHeight),
-                                                ),
+                          Container(
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5,
+                                childAspectRatio: (0.82 / 1.25),
+                              ),
+                              itemCount: snapshot.data!.products!.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 155,
+                                            height: 190,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                                width: 1,
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 5,
-                                                    left: 5,
-                                                    top: 3,
-                                                    bottom: 3),
-                                                child: Container(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(15),
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: Image.network(
+                                                  'https://${snapshot.data!.products!.elementAt(index).imageUrl}',
                                                   width: 175,
-                                                  height: 51,
-                                                  child: Text(
-                                                    '${snapshot.data!.products!.elementAt(index).name}',
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                '${snapshot.data!.products!.elementAt(index).price.current.text}',
+                                                  height: 190,
+                                                  fit: BoxFit.fitHeight),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5,
+                                                left: 5,
+                                                top: 3,
+                                                bottom: 3),
+                                            child: Container(
+                                              width: 175,
+                                              height: 51,
+                                              child: Text(
+                                                '${snapshot.data!.products!.elementAt(index).name}',
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18,
-                                                    color: Colors.black),
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                        onTap: () async {
-                                          Navigator.pushNamed(
-                                              context, '/details',
-                                              arguments: Id(
-                                                  id: snapshot.data!.products!
-                                                      .elementAt(index)
-                                                      .id));
-                                        });
-                                  },
-                                ),
-                              ),
+                                          Text(
+                                            '${snapshot.data!.products!.elementAt(index).price.current.text}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      Navigator.pushNamed(context, '/details',
+                                          arguments: Id(
+                                              id: snapshot.data!.products!
+                                                  .elementAt(index)
+                                                  .id));
+                                    });
+                              },
                             ),
                           ),
                         ]),

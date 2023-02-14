@@ -88,12 +88,9 @@ class _DetailsState extends State<Details> {
                                     'price': snapshot.data!.price.current.text
                                   });
                                   int id = await favhelper.createFav(dataSQL);
-                                  // Navigator.pushNamed(
-                                  //   context,
-                                  //   '/favourite',
-                                  // );
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Favourite(),
+                                    builder: (context) =>
+                                        Favourite(backArrowState: true),
                                   ));
                                 },
                                 icon: Icon(
@@ -363,7 +360,9 @@ class _DetailsState extends State<Details> {
                                   context,
                                   PageTransition(
                                       type: PageTransitionType.rightToLeft,
-                                      child: Cart()));
+                                      child: Cart(
+                                        backArrowState: true,
+                                      )));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
